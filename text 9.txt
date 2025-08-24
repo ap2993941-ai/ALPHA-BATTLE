@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha Battle - The Ultimate Gaming Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff8c00;
+            --secondary-color: #ff4500;
+            --dark-bg: #0d0d0d;
+            --card-bg: #1a1a1a;
+            --text-color: #e0e0e0;
+            --font-family: 'Orbitron', sans-serif;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0; background-color: var(--dark-bg); color: var(--text-color); overflow-x: hidden;
+        }
+        
+        /* Pre-loader */
+        #preloader {
+            background: var(--dark-bg) url('https://i.gifer.com/ZZ5H.gif') no-repeat center center;
+            background-size: 10%;
+            height: 100vh; width: 100%; position: fixed; z-index: 10000;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Navigation Bar */
+        .navbar {
+            background: rgba(20, 20, 20, 0.7); backdrop-filter: blur(10px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); position: fixed; width: 100%; top: 0; z-index: 1000;
+        }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .navbar .logo { font-family: var(--font-family); font-size: 1.8em; font-weight: 700; color: var(--primary-color); text-shadow: 0 0 10px var(--primary-color); }
+        .navbar ul { list-style: none; margin: 0; padding: 0; display: flex; }
+        .navbar ul li a { padding: 15px 20px; text-decoration: none; color: var(--text-color); font-weight: 600; transition: color 0.3s, text-shadow 0.3s; }
+        .navbar ul li a:hover { color: var(--primary-color); text-shadow: 0 0 5px var(--primary-color); }
+        
+        /* Hero Section */
+        #hero {
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://via.placeholder.com/1920x1080.png/0d0d0d?text=YOUR+GAME+BACKGROUND');
+            background-size: cover; background-position: center; text-align: center; padding: 200px 20px 150px;
+        }
+        #hero h1 { font-family: var(--font-family); font-size: 4em; font-weight: 900; margin: 0 0 10px; text-transform: uppercase; color: #fff; text-shadow: 0 0 20px var(--primary-color); }
+        #hero p { font-size: 1.3em; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .download-button { font-family: var(--font-family); display: inline-block; background: linear-gradient(45deg, var(--secondary-color), var(--primary-color)); color: white; padding: 18px 40px; border-radius: 5px; text-decoration: none; font-weight: 700; font-size: 1.2em; transition: all 0.3s; border: 2px solid var(--primary-color); box-shadow: 0 0 20px rgba(255, 140, 0, 0.5); }
+        .download-button:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 140, 0, 0.8); }
+
+        .section { padding: 100px 0; }
+        .section-title { font-family: var(--font-family); font-size: 3em; text-align: center; margin-bottom: 60px; text-transform: uppercase; color: var(--primary-color); }
+
+        /* Game Info Section */
+        #game-info .info-layout { display: flex; gap: 40px; align-items: center; flex-wrap: wrap; }
+        #game-info .info-text { flex: 1; min-width: 300px; }
+        #game-info .info-image { flex: 1; min-width: 300px; }
+        #game-info .info-image img { width: 100%; border-radius: 10px; border: 3px solid var(--primary-color); box-shadow: 0 0 25px rgba(255,140,0,0.3); }
+
+        /* News Section */
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .news-card { background: var(--card-bg); border-radius: 10px; border: 1px solid #333; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+        .news-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .news-card img { width: 100%; height: 200px; object-fit: cover; }
+        .news-card-content { padding: 20px; }
+        .news-card-content h3 { font-family: var(--font-family); margin-top: 0; color: var(--primary-color); }
+        .news-card-content p { font-size: 0.9em; line-height: 1.6; }
+        .news-card-content .read-more { display: inline-block; margin-top: 15px; color: var(--primary-color); text-decoration: none; font-weight: bold; }
+
+        /* Trailer Section */
+        #trailer .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border: 3px solid var(--primary-color); border-radius: 10px; box-shadow: 0 0 30px rgba(255,140,0,0.4); }
+        #trailer .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        /* Character Showcase */
+        .alphas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .alpha-card { background: var(--card-bg); border-radius: 10px; overflow: hidden; text-align: center; border: 1px solid #333; transition: transform 0.3s, box-shadow 0.3s; }
+        .alpha-card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .alpha-card img { width: 100%; height: 250px; object-fit: cover; }
+        .alpha-card h3 { font-family: var(--font-family); margin: 15px 0 5px; color: var(--primary-color); }
+        .alpha-card p { font-size: 0.9em; padding: 0 15px 15px; }
+        
+        /* Media Gallery Section */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .gallery-item img { width: 100%; border-radius: 8px; border: 2px solid #444; transition: transform 0.3s, border-color 0.3s; cursor: pointer; }
+        .gallery-item img:hover { transform: scale(1.05); border-color: var(--primary-color); }
+
+        /* Footer */
+        .footer { background: #0a0a0a; color: #aaa; padding: 40px 0; text-align: center; border-top: 2px solid #222; }
+        .footer-links { margin-bottom: 20px; }
+        .footer-links a { color: #aaa; margin: 0 15px; text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary-color); }
+        .social-links a { margin: 0 15px; display: inline-block; transition: transform 0.3s; }
+        .social-links a:hover { transform: scale(1.2); }
+        .social-links svg { width: 30px; height: 30px; fill: #777; transition: fill 0.3s; }
+        .social-links a:hover svg { fill: var(--primary-color); }
+        .footer .copyright { margin-top: 20px; font-size: 0.9em; }
+
+        /* Animation on Scroll */
+        .reveal { position: relative; opacity: 0; transform: translateY(50px); transition: all 1s ease-in-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* --- NEW: AI HELP ASSISTANT STYLES --- */
+        #ai-help-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(255, 140, 0, 0.5);
+            transition: transform 0.3s;
+        }
+        #ai-help-button:hover {
+            transform: scale(1.1);
+        }
+
+        #ai-help-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1001;
+            display: none; /* Initially hidden */
+            justify-content: center;
+            align-items: center;
+        }
+        #ai-help-modal.visible {
+            display: flex; /* Show when active */
+        }
+        .ai-modal-content {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .ai-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #444;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .ai-modal-header h3 {
+            font-family: var(--font-family);
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .ai-modal-close {
+            font-size: 2em;
+            color: #777;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .ai-modal-close:hover {
+            color: var(--text-color);
+        }
+        #ai-search-bar {
+            width: 100%;
+            padding: 12px;
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 5px;
+            color: var(--text-color);
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+        .ai-faq-list {
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        .ai-faq-item {
+            margin-bottom: 10px;
+        }
+        .ai-faq-question {
+            background-color: #252525;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .ai-faq-question:hover {
+            background-color: #333;
+        }
+        .ai-faq-answer {
+            padding: 15px;
+            background-color: #111;
+            border-radius: 0 0 5px 5px;
+            display: none; /* Hidden by default */
+            line-height: 1.6;
+            border-top: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="preloader"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">ALPHA BATTLE</div>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#game-info">About</a></li>
+                <li><a href="#news">News</a></li>
+                <li><a href="#trailer">Trailer</a></li>
+                <li><a href="#alphas">The Alphas</a></li>
+                <li><a href="#media">Media</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container">
+            <h1>MERGE. BATTLE. DOMINATE.</h1>
+            <p>Experience a new era of strategy gaming. Build your alphabet army and conquer the battlefield.</p>
+            <a href="#" class="download-button">PLAY NOW</a>
+        </div>
+    </section>
+
+    <!-- Game Info Section -->
+    <section id="game-info" class="section reveal">
+        <div class="container">
+            <h2 class="section-title">The World of Alpha Battle</h2>
+            <div class="info-layout">
+                <div class="info-text">
+                    <h3>Enter a New Reality</h3>
+                    <p>In a realm where language is power, the Alphas are sentient beings born from the very essence of the alphabet. Each Alpha possesses unique abilities reflecting their character. Your mission is to assemble a formidable team, merge them to unlock their true potential, and lead them to victory in strategic turn-based combat.</p>
+                    <p>Explore a rich and vibrant world, uncover ancient secrets, and challenge other players in intense PvP battles to prove your dominance. Are you ready to write your own legend?</p>
+                </div>
+                <div class="info-image">
+                    <img src="https://via.placeholder.com/600x400.png/1a1a1a?text=GAME+WORLD+ART" alt="World of Alpha Battle">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News & Updates Section -->
+    <section id="news" class="section reveal" style="background-color: #111;">
+        <div class="container">
+            <h2 class="section-title">News & Updates</h2>
+            <div class="news-grid">
+                <!-- News Articles -->
+                <div class="news-card"><img src="https://via.placeholder.com/400x200.png/1a1a1a?text=UPDATE+BANNER" alt="Update v1.1"><div class="news-card-content"><h3>Update v1.1 is LIVE!</h3><p>The latest patch brings two new Alphas, a brand new map, and significant balance changes. Dive in now!</p><a href="#" class="read-more">Read More &rarr;</a></div></div>
+                <div class="news-card"><img src="https://via.placeholder.com/400x200.png/1a1a1a?text=EVENT+BANNER" alt="Community Event"><div class="news-card-content"><h3>Community Tournament Announced!</h3><p>Sign-ups for the first-ever Alpha Battle Championship are now open. Huge prizes and glory await the victor.</p><a href="#" class="read-more">Learn More &rarr;</a></div></div>
+                <div class="news-card"><img src="https://via.placeholder.com/400x200.png/1a1a1a?text=DEV+DIARY+BANNER" alt="Dev Diary"><div class="news-card-content"><h3>Developer Diary: The Making of Giga-G</h3><p>Go behind the scenes with our art and design team to see how the mighty Giga-G was brought to life.</p><a href="#" class="read-more">Read More &rarr;</a></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Trailer Section -->
+    <section id="trailer" class="section reveal">
+        <div class="container">
+            <h2 class="section-title">Official Trailer</h2>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Character Showcase Section -->
+    <section id="alphas" class="section reveal" style="background-color: #111;">
+        <div class="container">
+            <h2 class="section-title">Meet The Alphas</h2>
+            <div class="alphas-grid">
+                <!-- Characters -->
+                <div class="alpha-card"><img src="https://via.placeholder.com/300x250.png/1a1a1a?text=ALPHA+IMAGE" alt="Alpha Character 1"><h3>Giga-G</h3><p>A frontline tank, known for its immense defensive power.</p></div>
+                <div class="alpha-card"><img src="https://via.placeholder.com/300x250.png/1a1a1a?text=ALPHA+IMAGE" alt="Alpha Character 2"><h3>Sharp-S</h3><p>A swift assassin that strikes from the shadows.</p></div>
+                <div class="alpha-card"><img src="https://via.placeholder.com/300x250.png/1a1a1a?text=ALPHA+IMAGE" alt="Alpha Character 3"><h3>Vortex-V</h3><p>A master of crowd control, pulling enemies together.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Media Gallery Section -->
+    <section id="media" class="section reveal">
+        <div class="container">
+            <h2 class="section-title">Screenshots & Wallpapers</h2>
+            <div class="gallery-grid">
+                <!-- Media Items -->
+                <div class="gallery-item"><img src="https://via.placeholder.com/400x225.png/1a1a1a?text=SCREENSHOT" alt="Screenshot 1"></div>
+                <div class="gallery-item"><img src="https://via.placeholder.com/400x225.png/1a1a1a?text=SCREENSHOT" alt="Screenshot 2"></div>
+                <div class="gallery-item"><img src="https://via.placeholder.com/400x225.png/1a1a1a?text=SCREENSHOT" alt="Screenshot 3"></div>
+                <div class="gallery-item"><img src="https://via.placeholder.com/400x225.png/1a1a1a?text=WALLPAPER" alt="Wallpaper 1"></div>
+                <div class="gallery-item"><img src="https://via.placeholder.com/400x225.png/1a1a1a?text=WALLPAPER" alt="Wallpaper 2"></div>
+                <div class="gallery-item"><img src="https://via.placeholder.com/400x225.png/1a1a1a?text=CONCEPT+ART" alt="Concept Art 1"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links"><a href="#">Terms of Service</a><a href="#">Privacy Policy</a><a href="#">Contact Us</a><a href="#">Press Kit</a></div>
+            <div class="social-links">
+                <a href="#" title="Discord"><svg viewBox="0 0 24 24"><path d="M20.317 4.36981C18.7915 3.58331 17.1593 3.03331 15.4243 2.72481C15.2078 3.01031 14.9768 3.32331 14.7628 3.65331C13.0468 3.23831 11.2383 3.23831 9.53981 3.65331C9.32581 3.32331 9.09481 3.01031 8.87831 2.72481C7.14331 3.03331 5.51104 3.58331 3.98554 4.36981C0.465541 9.53981 -0.320959 14.4448 0.0935409 19.2603C1.83104 20.3348 3.64204 21.0333 5.54554 21.4328C5.97704 20.8408 6.36604 20.2068 6.70204 19.5303C6.06954 19.2218 5.46454 18.8618 4.89204 18.4628C5.03981 18.3303 5.18481 18.1953 5.32431 18.0558C8.67331 19.6828 12.3998 19.9883 15.9523 18.8873C16.5323 19.3793 17.0723 19.8293 17.5598 20.2443C18.2323 20.5398 18.8973 20.8073 19.5463 21.0323C20.9323 20.3473 22.2143 19.4498 23.3338 18.3773C24.3303 12.8723 23.1798 8.12081 20.317 4.36981ZM8.02181 15.6323C6.88981 15.6323 5.96131 14.6828 5.96131 13.5223C5.96131 12.3618 6.88981 11.4123 8.02181 11.4123C9.15381 11.4123 10.0823 12.3618 10.0823 13.5223C10.0823 14.6828 9.15381 15.6323 8.02181 15.6323ZM16.2758 15.6323C15.1438 15.6323 14.2153 14.6828 14.2153 13.5223C14.2153 12.3618 15.1438 11.4123 16.2758 11.4123C17.4078 11.4123 18.3363 12.3618 18.3363 13.5223C18.3363 14.6828 17.4078 15.6323 16.2758 15.6323Z"/></svg></a>
+                <a href="#" title="Twitter / X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                <a href="#" title="YouTube"><svg viewBox="0 0 24 24"><path d="M10,15L15.19,12L10,9V15M21.56,7.17C21.69,7.64 21.78,8.27 21.84,9.07C21.91,9.87 21.94,10.56 21.94,11.16L22,12C22,14.19 21.84,15.8 21.56,16.83C21.31,17.73 20.73,18.31 19.83,18.56C19.36,18.69 18.73,18.78 17.93,18.84C17.13,18.91 16.44,18.94 15.84,18.94L15,19C12.81,19 11.2,18.84 10.17,18.56C9.27,18.31 8.69,17.73 8.44,16.83C8.31,16.36 8.22,15.73 8.16,14.93C8.09,14.13 8.06,13.44 8.06,12.84L8,12C8,9.81 8.16,8.2 8.44,7.17C8.69,6.27 9.27,5.69 10.17,5.44C11.2,5.16 12.81,5 15,5L15.84,5.06C16.44,5.06 17.13,5.09 17.93,5.16C18.73,5.22 19.36,5.31 19.83,5.44C20.73,5.69 21.31,6.27 21.56,7.17Z"/></svg></a>
+            </div>
+            <div class="copyright">&copy; 2025 Your Company Name. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+    <!-- --- NEW: AI HELP ASSISTANT HTML --- -->
+    <div id="ai-help-button">?</div>
+
+    <div id="ai-help-modal">
+        <div class="ai-modal-content">
+            <div class="ai-modal-header">
+                <h3>AI Assistant</h3>
+                <span class="ai-modal-close">&times;</span>
+            </div>
+            <input type="text" id="ai-search-bar" placeholder="Ask a question...">
+            <div class="ai-faq-list">
+                <!-- Question 1 -->
+                <div class="ai-faq-item">
+                    <div class="ai-faq-question">What is Alpha Battle?</div>
+                    <div class="ai-faq-answer">Alpha Battle is a strategic turn-based game where you collect, merge, and battle with characters known as Alphas, each representing a letter of the alphabet with unique skills.</div>
+                </div>
+                <!-- Question 2 -->
+                <div class="ai-faq-item">
+                    <div class="ai-faq-question">How can I download the game?</div>
+                    <div class="ai-faq-answer">You can download the game by clicking the "PLAY NOW" button on the main screen. This will take you to the official download page for your device.</div>
+                </div>
+                <!-- Question 3 -->
+                <div class="ai-faq-item">
+                    <div class="ai-faq-question">Is the game free to play?</div>
+                    <div class="ai-faq-answer">Yes, Alpha Battle is free to download and play! There are optional in-game purchases available for cosmetic items and other bonuses, but they are not required to enjoy the full game.</div>
+                </div>
+                <!-- Question 4 -->
+                <div class="ai-faq-item">
+                    <div class="ai-faq-question">What platforms is the game available on?</div>
+                    <div class="ai-faq-answer">Currently, Alpha Battle is available on PC, Android, and iOS. We are working on bringing it to more platforms in the future.</div>
+                </div>
+                 <!-- Question 5 -->
+                 <div class="ai-faq-item">
+                    <div class="ai-faq-question">How do I report a bug or a player?</div>
+                    <div class="ai-faq-answer">You can report any issues through the in-game support menu or by joining our official Discord server and messaging a moderator. Thank you for helping us improve the game!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Pre-loader script
+        var loader = document.getElementById("preloader");
+        window.addEventListener("load", function(){
+            loader.style.display = "none";
+        })
+
+        // Animation on scroll script
+        const revealElements = document.querySelectorAll(".reveal");
+        function revealOnScroll() {
+            for (let i = 0; i < revealElements.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = revealElements[i].getBoundingClientRect().top;
+                const elementVisible = 150; 
+
+                if (elementTop < windowHeight - elementVisible) {
+                    revealElements[i].classList.add("visible");
+                }
+            }
+        }
+        window.addEventListener("scroll", revealOnScroll);
+        revealOnScroll();
+
+        // --- NEW: AI HELP ASSISTANT SCRIPT ---
+        const helpButton = document.getElementById('ai-help-button');
+        const helpModal = document.getElementById('ai-help-modal');
+        const closeModalButton = document.querySelector('.ai-modal-close');
+        const faqQuestions = document.querySelectorAll('.ai-faq-question');
+        const searchBar = document.getElementById('ai-search-bar');
+        const faqItems = document.querySelectorAll('.ai-faq-item');
+
+        // Open and Close Modal
+        helpButton.addEventListener('click', () => {
+            helpModal.classList.add('visible');
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            helpModal.classList.remove('visible');
+        });
+        
+        helpModal.addEventListener('click', (event) => {
+            if (event.target === helpModal) { // Close if clicked on the background overlay
+                helpModal.classList.remove('visible');
+            }
+        });
+
+        // FAQ Accordion
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                // Close other open answers
+                faqQuestions.forEach(q => {
+                    if (q !== question) {
+                        q.nextElementSibling.style.display = 'none';
+                    }
+                });
+                // Toggle current answer
+                answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+
+        // Search Functionality
+        searchBar.addEventListener('keyup', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+
+            faqItems.forEach(item => {
+                const questionText = item.querySelector('.ai-faq-question').textContent.toLowerCase();
+                if (questionText.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
